@@ -3,6 +3,7 @@
 ###
 
 import pandas as pd
+import math
 
 file_cmg = pd.read_csv("cmg_weeks.csv")
 file_spy = pd.read_csv("spy_weeks.csv")
@@ -15,11 +16,19 @@ def Q1ComputeData(df):
 	for k in k_vals:
 		i = 0
 		while i < file_len:
+			nearest = [[]] * k
 			j = 0
 			while j < file_len:
 				if j == i:
 					j += 1
 					continue
+				cur_avg = df['Avg_Return'].get(i)
+				cur_vol = df['Volatility'].get(i)
+				oth_avg = df['Avg_Return'].get(j)
+				oth_vol = df['Volatility'].get(j)
+				distance = math.sqrt((abs(cur_avg - oth_avg) ** 2) + (abs(cur_vol - oth_vol) ** 2))
+				# TODO: check distance here of i against j, 
+				# 	if its one of k shortest distances, add to list
 				j += 1
 			i += 1
 	return results
