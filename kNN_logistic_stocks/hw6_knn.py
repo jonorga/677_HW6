@@ -168,4 +168,33 @@ print("\n")
 # Question 4 =================================================================================================
 print("Question 4:")
 
+positive = 0
+negative = 0
+true_pos = 0
+true_neg = 0
+
+actual = q3_data[0]
+predicted = q3_data[1]
+for act, pre in zip(actual, predicted):
+	if act == "Green":
+		positive += 1
+		if pre == "Green":
+			true_pos += 1 
+	elif act == "Red":
+		negative += 1
+		if pre == "Red":
+			true_neg += 1
+
+print("The true positive rate for year 2 is: " + str(round((true_pos/positive) * 100, 2)) + "%")
+print("The true negative rate for year 2 is: " + str(round((true_neg/negative) * 100, 2)) + "%")
+
+
+
+
+print("\n")
+# Question 5 =================================================================================================
+print("Question 5:")
+
+
+
 
