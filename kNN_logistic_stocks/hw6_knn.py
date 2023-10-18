@@ -91,6 +91,8 @@ print("\n")
 print("Question 2:")
 
 def Q2Accuracy(df, k_val):
+	y_actu = []
+	y_pred = []
 	file_len = len(df.index)
 	total_guess = 0
 	correct_guess = 0
@@ -106,8 +108,8 @@ def Q2Accuracy(df, k_val):
 				continue
 			cur_avg = df['Avg_Return'].iloc[i]
 			cur_vol = df['Volatility'].iloc[i]
-			oth_avg = df['Avg_Return'].iloc[i]
-			oth_vol = df['Volatility'].iloc[i]
+			oth_avg = df['Avg_Return'].iloc[j]
+			oth_vol = df['Volatility'].iloc[j]
 			distance = math.sqrt((abs(cur_avg - oth_avg) ** 2) + (abs(cur_vol - oth_vol) ** 2))
 
 			if len(nearest) < k_val:
@@ -130,26 +132,40 @@ def Q2Accuracy(df, k_val):
 			elif df['Color'].iloc[neighbor[1]] == "Red":
 				red_neighbor += 1
 		if green_neighbor > red_neighbor:
+			predict = "Green"
 			if df['Color'].iloc[i] == "Green":
 				correct_guess += 1
 		elif red_neighbor > green_neighbor:
+			predict = "Red"
 			if df['Color'].iloc[i] == "Red":
 				correct_guess += 1
 		total_guess += 1
+		y_actu.append(df['Color'].iloc[i])
+		y_pred.append(predict)
 		i += 1
 	print("Using the optimal k value of " + str(k_val) + " on year 2 gives an accuracy of "
 		+ str(round((correct_guess/total_guess) * 100, 2)) + "%")
+	return [y_actu, y_pred]
 
 
 cmg_y2 = file_cmg[(file_cmg['Week'] > 50) & (file_cmg['Week'] <= 100)]
-Q2Accuracy(cmg_y2, ans['k_Value'].loc[ans['k_Accuracy'].idxmax()])
+q3_data = Q2Accuracy(cmg_y2, ans['k_Value'].loc[ans['k_Accuracy'].idxmax()])
 
 
 print("\n")
 # Question 3 =================================================================================================
 print("Question 3:")
 
+y_actu = pd.Series(q3_data[0], name='Actual')
+y_pred = pd.Series(q3_data[1], name='Predicted')
+confusion_matrix = pd.crosstab(y_actu, y_pred)
+print(confusion_matrix)
 
 
+
+
+print("\n")
+# Question 4 =================================================================================================
+print("Question 4:")
 
 
