@@ -16,7 +16,9 @@ def Q1ComputeData(df):
 	for k in k_vals:
 		i = 0
 		while i < file_len:
-			nearest = [[]] * k
+			nearest = []
+			biggest = [-1, -1]
+
 			j = 0
 			while j < file_len:
 				if j == i:
@@ -27,6 +29,15 @@ def Q1ComputeData(df):
 				oth_avg = df['Avg_Return'].get(j)
 				oth_vol = df['Volatility'].get(j)
 				distance = math.sqrt((abs(cur_avg - oth_avg) ** 2) + (abs(cur_vol - oth_vol) ** 2))
+
+				if len(nearest) < k:
+					if distance > biggest[0]:
+						biggest = [distance, j]
+					nearest.append([distance, j])
+				#elif distance < biggest[0]:
+				#	nearest.remove(biggest)
+					# TODO: Label the new biggest one now, its not necessaryily the one you're adding
+
 				# TODO: check distance here of i against j, 
 				# 	if its one of k shortest distances, add to list
 				j += 1
