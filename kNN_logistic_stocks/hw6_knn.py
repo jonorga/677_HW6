@@ -89,3 +89,67 @@ print("The optimal value of k for year 1 is: " + str(ans['k_Value'].loc[ans['k_A
 print("\n")
 # Question 2 =================================================================================================
 print("Question 2:")
+
+def Q2Accuracy(df, k_val):
+	file_len = len(df.index)
+	total_guess = 0
+	correct_guess = 0
+	i = 0
+	while i < file_len:
+		nearest = []
+		biggest = [-1, -1]
+
+		j = 0
+		while j < file_len:
+			if j == i:
+				j += 1
+				continue
+			cur_avg = df['Avg_Return'].iloc[i]
+			cur_vol = df['Volatility'].iloc[i]
+			oth_avg = df['Avg_Return'].iloc[i]
+			oth_vol = df['Volatility'].iloc[i]
+			distance = math.sqrt((abs(cur_avg - oth_avg) ** 2) + (abs(cur_vol - oth_vol) ** 2))
+
+			if len(nearest) < k_val:
+				if distance > biggest[0]:
+					biggest = [distance, j]
+				nearest.append([distance, j])
+				nearest.sort()
+			elif distance < biggest[0]:
+				nearest.remove(biggest)
+				nearest.append([distance, j])
+				nearest.sort()
+				biggest = nearest[-1]
+			j += 1
+		# Deal with nearest list here
+		green_neighbor = 0
+		red_neighbor = 0
+		for neighbor in nearest:
+			if df['Color'].iloc[neighbor[1]] == "Green":
+				green_neighbor += 1
+			elif df['Color'].iloc[neighbor[1]] == "Red":
+				red_neighbor += 1
+		if green_neighbor > red_neighbor:
+			if df['Color'].iloc[i] == "Green":
+				correct_guess += 1
+		elif red_neighbor > green_neighbor:
+			if df['Color'].iloc[i] == "Red":
+				correct_guess += 1
+		total_guess += 1
+		i += 1
+	print("Using the optimal k value of " + str(k_val) + " on year 2 gives an accuracy of "
+		+ str(round((correct_guess/total_guess) * 100, 2)) + "%")
+
+
+cmg_y2 = file_cmg[(file_cmg['Week'] > 50) & (file_cmg['Week'] <= 100)]
+Q2Accuracy(cmg_y2, ans['k_Value'].loc[ans['k_Accuracy'].idxmax()])
+
+
+print("\n")
+# Question 3 =================================================================================================
+print("Question 3:")
+
+
+
+
+
