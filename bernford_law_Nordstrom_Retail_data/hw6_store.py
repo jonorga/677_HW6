@@ -3,6 +3,8 @@
 ###
 
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 
 # Question 1 =======================================================================================
@@ -50,6 +52,23 @@ for cat in df.CATEGORY.unique():
 print("\n")
 # Question 5 =======================================================================================
 print("Question 5:")
+#df['First'] = (df['PRICE_RETAIL'] / 100).astype(int)
+df['First'] = (df['PRICE_RETAIL']).astype(str).str[:1]
+df['Second'] = (df['PRICE_RETAIL']).astype(str).str[1:2]
+df['Third'] = (df['PRICE_RETAIL']).astype(str).str[2:3]
+#df['Second'] = (df['PRICE_RETAIL'] / 10 % 10).astype(int)
+#df['Third'] = (df['PRICE_RETAIL'] % 10).astype(int)
+print(df[['PRICE_RETAIL', 'First', 'Second', 'Third']])
+
+if True:
+	fig = plt.figure()
+	ax = fig.add_subplot(1, 1, 1)
+	ax.hist(df['First'], bins = 9, histtype='bar', ec="black", color="red")
+	ax.set_title("Histogram of first digit")
+	ax.set_xlabel("First Digit")
+	ax.set_ylabel("Frequency")
+	ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+	fig.savefig("test.png")
 
 
 
