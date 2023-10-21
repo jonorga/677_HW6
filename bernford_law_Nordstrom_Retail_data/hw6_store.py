@@ -52,23 +52,23 @@ for cat in df.CATEGORY.unique():
 print("\n")
 # Question 5 =======================================================================================
 print("Question 5:")
-#df['First'] = (df['PRICE_RETAIL'] / 100).astype(int)
-df['First'] = (df['PRICE_RETAIL']).astype(str).str[:1]
-df['Second'] = (df['PRICE_RETAIL']).astype(str).str[1:2]
-df['Third'] = (df['PRICE_RETAIL']).astype(str).str[2:3]
-#df['Second'] = (df['PRICE_RETAIL'] / 10 % 10).astype(int)
-#df['Third'] = (df['PRICE_RETAIL'] % 10).astype(int)
-print(df[['PRICE_RETAIL', 'First', 'Second', 'Third']])
+df['First'] = (df['PRICE_RETAIL']).astype(str).str.replace('.', '').str[:1].astype(int)
+df['Second'] = (df['PRICE_RETAIL']).astype(str).str.replace('.', '').str[1:2].astype(int)
+df['Third'] = (df['PRICE_RETAIL']).astype(str).str.replace('.', '').str[2:3].replace('', '0').astype(int)
 
-if True:
+
+def Q5Hist(col, num):
 	fig = plt.figure()
 	ax = fig.add_subplot(1, 1, 1)
-	ax.hist(df['First'], bins = 9, histtype='bar', ec="black", color="red")
-	ax.set_title("Histogram of first digit")
-	ax.set_xlabel("First Digit")
+	ax.hist(df[col], bins = num, histtype='bar', ec="black", color="red")
+	ax.set_title("Histogram of " + col + " digit")
+	ax.set_xlabel(col + " Digit")
 	ax.set_ylabel("Frequency")
 	ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-	fig.savefig("test.png")
+	print("Saving " + col + " histogram...")
+	fig.savefig("Q5_" + col + "_Hist.png")
 
-
+Q5Hist('First', df['First'].nunique())
+Q5Hist('Second', df['Second'].nunique())
+Q5Hist('Third', df['Third'].nunique())
 
