@@ -4,6 +4,7 @@
 
 import pandas as pd
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from matplotlib.ticker import PercentFormatter
@@ -167,5 +168,52 @@ Q6GenerateHist(second_2_err_d, "Model_2", "second")
 Q6GenerateHist(third_2_err_d, "Model_2", "third")
 
 
+
+print("\n")
+# Question 7 =======================================================================================
+print("Question 7:")
+
+
+def Q7ComputeRMSE(data):
+	rmse_result = 0
+	for val in data:
+		rmse_result += (val ** 2)
+	rmse_result /= len(data)
+	return math.sqrt(rmse_result)
+
+first_1_rmse = Q7ComputeRMSE(first_1_err)
+second_1_rmse = Q7ComputeRMSE(second_1_err)
+third_1_rmse = Q7ComputeRMSE(third_1_err)
+first_2_rmse = Q7ComputeRMSE(first_2_err)
+second_2_rmse = Q7ComputeRMSE(second_2_err)
+third_2_rmse = Q7ComputeRMSE(third_2_err)
+
+
+if first_1_rmse < first_2_rmse:
+	first_result = "1"
+else:
+	first_result = "2"
+print("For the first digit, the " + first_result + " Model was closer to real distribution"
+	+ "\nModel 1 RMSE: " + str(first_1_rmse) + "\nModel 2 RMSE: " + str(first_2_rmse))
+
+if second_1_rmse < second_2_rmse:
+	second_result = "1"
+else:
+	second_result = "2"
+print("For the first digit, the " + second_result + " Model was closer to real distribution"
+	+ "\nModel 1 RMSE: " + str(second_1_rmse) + "\nModel 2 RMSE: " + str(second_2_rmse))
+
+if third_1_rmse < third_2_rmse:
+	third_result = "1"
+else:
+	third_result = "2"
+print("For the first digit, the " + third_result + " Model was closer to real distribution"
+	+ "\nModel 1 RMSE: " + str(third_1_rmse) + "\nModel 2 RMSE: " + str(third_2_rmse))
+
+
+
+print("\n")
+# Question 8 =======================================================================================
+print("Question 8:")
 
 
